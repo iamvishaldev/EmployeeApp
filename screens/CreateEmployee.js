@@ -1,5 +1,5 @@
 import React,{useState} from 'react';
-import { StyleSheet,Text, View,Modal} from 'react-native';
+import { StyleSheet,View,Modal,Alert} from 'react-native';
 import { TextInput,Button} from 'react-native-paper';
 
 
@@ -29,6 +29,7 @@ const CreateEmployee = ()=>{
                 style={styles.inputStyle}
                 label="Email"
                 value={email}
+                keyboardType="email-address"
                 theme={theme}
                 mode='outlined'
                 onChangeText={text => setEmail(text)}
@@ -50,26 +51,53 @@ const CreateEmployee = ()=>{
                 mode='outlined'
                 onChangeText={text => setSalary(text)}
             />
-            <View>
-             <Button icon="upload" mode="contained" onPress={() => setModal(true)}>
-                Press me
-             </Button>
-             <Modal>
-             animationType="slide"
-             transparent={false}
-             visible={modal}
-             <Button icon="upload" mode="contained" onPress={() => setModal(false)}>
-                Press me
-             </Button>
-             </Modal>
-             </View>
+
+            <Button 
+            icon="upload" 
+            theme={theme}
+            mode="contained" 
+            style={styles.inputStyle}
+            onPress={() => setModal(true)}>
+                Upload Image
+            </Button>
+            <Button 
+            icon="content-save" 
+            theme={theme}
+            mode="contained" 
+            style={styles.inputStyle}
+            onPress={() =>  console.log('save pressed')}>
+                Save
+            </Button>
+            <Modal
+            animationType="slide"
+            transparent={true}
+            visible={modal}
+            onRequestClose={()=>{
+                // Alert.alert("Modal has been closed.");
+                setModal(false)
+            }}
+            >
+            <View style={styles.modalView}>
+                <View style={styles.modalButtonView}>
+                    <Button  theme={theme} icon="camera" mode="contained" onPress={() => console.log('camera pressed')}>
+                         Camera
+                    </Button>
+                    <Button  theme={theme} icon="image-area" mode="contained" onPress={() =>  console.log('gallery pressed')}>
+                         Galary
+                    </Button>
+                </View>
+                     <Button  theme={theme} icon="cancel"  onPress={() => setModal(false)}>
+                         cancel
+                    </Button>
+            </View>
+            </Modal>           
         </View>
     )
 }
 
 const theme = {
     colors:{
-        primary:'#822659'
+        primary:'#006aff'
     }
 }
 
@@ -79,6 +107,17 @@ const styles= StyleSheet.create({
     },
     inputStyle:{
         margin:5
+    },
+    modalView:{
+        position:"absolute",
+        bottom:2,
+        width:'100%',
+        backgroundColor:"white"
+    },
+    modalButtonView:{
+        flexDirection:"row",
+        padding:5,
+        justifyContent:"space-around"
     }
 })
 
